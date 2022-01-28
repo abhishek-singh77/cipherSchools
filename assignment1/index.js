@@ -1,65 +1,46 @@
-let hours = document.getElementById("hour");
-let min = document.getElementById("min");
-let sec = document.getElementById("sec");
-let mili = document.getElementById("mili");
+let ms =0
+let min =0
+let sec = 0
+time = false;
 
-var hour = 00;
-var minute = 00;
-var second = 00;
-var millisecond = 00;
-var interval;
-
-window.onload = () => clearFields();
-
-function start() {
-    clearInterval(interval); 
-    interval = setInterval(startTimer, 10);
-}
-
-function stop() {
-    clearInterval(interval);
-}
-
-function reset() {
-    clearInterval(interval);
-    clearFields();
-}
-
-function startTimer() {
-    millisecond++;
-    if(millisecond < 9) {
-        mili.innerText = "0" + millisecond;
+document.querySelector('.start').addEventListener('click',function(){
+    if(time==false){
+        time = true ;
+        stopwatch();
     }
-    if(millisecond > 99) {
-        second++;
-        sec.innerText = "0" + second;
-        millisecond = 0;
-        mili.innerText = "0" + millisecond;
-    }
-    if(second > 60) {
-        minute++;
-        min.innerText = "0" + minute;
-        second = 0;
-        sec.innerText = "0" + second;
-    }
+})
 
-    if(millisecond > 9) {
-        mili.innerText = millisecond;
-    }
-    if (second > 9){
-        sec.innerText = second;
-    }
-    if (minute > 9){
-        min.innerText = minute;
-    }
-    if(hour > 9) {
-        hours.innerText = hour;
-    }
-}
+document.querySelector('.stop').addEventListener('click',function(){
+    time = false;
+})
 
-function clearFields() {
-    hours.innerText = "00";
-    min.innerText = "00";
-    sec.innerText = "00";
-    mili.innerText = "00";
+document.querySelector('.reset').addEventListener('click',function(){
+    time = false;
+    min = 0
+    sec = 0
+    ms = 0
+    document.querySelector('.ms').innerHTML = "00"
+    document.querySelector('.sec').innerHTML = "00"
+    document.querySelector('.min').innerHTML = "00"
+})
+
+function stopwatch(){
+    if(time){
+        ms = ms+1
+        
+        if(ms==99){
+            sec++
+            ms = 0;
+        }
+        
+        if(sec==59){
+            min++
+            sec=0;
+        }
+
+        document.querySelector('.ms').innerHTML = (ms<10)?"0" + ms : ms;
+        document.querySelector('.sec').innerHTML = (sec<10) ? "0" + sec : sec ;
+        document.querySelector('.min').innerHTML = (min< 10) ? "0" + min : min ;
+        setTimeout("stopwatch()",10);
+    }
 }
